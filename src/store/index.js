@@ -1,7 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import getters from "./getters";
 
 Vue.use(Vuex);
+
+// 页面的初始化数据
+const emptyPageData = {
+  id: "",
+  name: "页面标题",
+  shareDesc: "", //微信分享文案
+  shareImage: "", //微信分享图
+  backgroundColor: "",
+  backgroundImage: "",
+  backgroundPosition: "top", //页面背景位置
+  componentList: [],
+};
 
 const store = new Vuex.Store({
   state: {
@@ -9,6 +22,8 @@ const store = new Vuex.Store({
     dragActive: false,
     // 当前正在拖拽的组件
     dragComponent: {},
+    // 当前页面的数据
+    pageData: JSON.parse(JSON.stringify(emptyPageData)),
   },
   mutations: {
     // 修改组件拖拽状态
@@ -19,8 +34,13 @@ const store = new Vuex.Store({
     SET_DRAG_COMPONENT(state, value) {
       state.dragComponent = value;
     },
+    // 页面更新方法
+    UPDATE_COMPONENT(state, { data }) {
+      state.pageData = data || {};
+    },
   },
   actions: {},
+  getters,
 });
 
 Vue.store = store;

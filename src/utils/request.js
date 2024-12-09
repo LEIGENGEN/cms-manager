@@ -5,7 +5,7 @@ import { Message } from "element-ui";
 // 创建axios实例
 const service = axios.create({
   baseURL,
-  timeout: 2000,
+  timeout: 20000,
 });
 
 // 添加请求拦截器
@@ -21,7 +21,7 @@ service.interceptors.request.use(
 );
 
 // 添加响应拦截器
-service.interceptors.request.response.use(
+service.interceptors.response.use(
   (response) => {
     const res = response.data;
     if (res.code !== 10000) Message.error(res.message);

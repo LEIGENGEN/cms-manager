@@ -9,7 +9,7 @@
             :class="draggableEnable(component) ? 'drag-enabled' : 'drag-disabled'">
             <i :class="component.iconClass"></i>
             <p>{{ component.name }}</p>
-            <p>4/50</p>
+            <p>{{ componentMap[component.data.component] || 0 }}/{{ component.maxNumForAdd }}</p>
           </li>
         </ul>
       </el-collapse-item>
@@ -27,13 +27,22 @@ export default {
       componentlist,
     }
   },
+  computed: {
+    // 页面组件被使用次数
+    componentMap() {
+      return this.$store.getters.pageComponentTotalMap
+    }
+  },
+  mounted() {
+    console.log(this.componentMap);
+  },
   methods: {
     ...mapMutations(['SET_DRAG_STATE', 'SET_DRAG_COMPONENT']),
     // 控制当前元素是否可拖拽
     draggableEnable(component) {
       // 当前组件被使用的次数与组件使用次数的上限进行比较
-      // component.maxNumForAdd
-      return true
+      const curNum = this.componentMap[component.data.component] || 0
+      return curNum < component.maxNumForAdd
     },
     onDragstart(component) {
       console.log(component, "cc");
